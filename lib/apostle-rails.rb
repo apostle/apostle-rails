@@ -1,0 +1,1 @@
+require 'apostle_rails'
