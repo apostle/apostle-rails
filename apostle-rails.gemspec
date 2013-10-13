@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
   spec.version       = ApostleRails::VERSION
   spec.authors       = ["Mal Curtis"]
   spec.email         = ["mal@apostle.io"]
-  spec.description   = %q{Easy Rails integration for Apostle}
+  spec.description   = %q{Rails Bindings for Apostle}
   spec.summary       = %q{Easy Rails integration for Apostle}
   spec.homepage      = "http://apostle.io"
   spec.license       = "MIT"

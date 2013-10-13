@@ -1,6 +1,6 @@
 # Apostle::Rails
 
-TODO: Write a gem description
+Rails Bindings for Apostle
 
 ## Installation
 
@@ -18,7 +18,43 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+`apostle-rails` is designed to feel like the `ActionMailer` API as much as possible.
+
+Changing an existing mailer is easy.
+
+```ruby
+class MyMailer < ActionMailer::Base
+	def my_mail name, email, message
+		@message, @name = message, name
+		mail to: email, subject: "Your message"
+	end
+end
+```
+becomes
+```ruby
+class MyMailer < ActionMailer::Base
+
+	include Apostle::Mailer
+
+	def my_mail name, email, message
+		@message, @name = message, name
+		mail "my_mail", email: email
+	end
+end
+```
+
+The first param passed to `mail` is the template slug, and instead of `to`, use `email`. `Apostle::Mailer` automatically adds any instance variables you set to the `Apostle::Mail` instance.
+
+Instead of returning an `ActionMailer` object when `MyMailer.my_mail` you get an instance of `Apostle::Mail`, which  you can then call `deliver` on.
+
+```ruby
+MyMailer.
+	my_mail("Mal Curtis", "mal@mal.co.nz", "Hi there").
+	deliver!
+```
+
+## Who
+Created with ♥ by [Mal Curtis](http://github.com/snikch) ([@snikchnz](http://twitter.com/snikchnz))
 
 ## Contributing
 
