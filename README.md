@@ -1,4 +1,4 @@
-# Apostle::Rails
+# apostle-rails
 
 Rails Bindings for Apostle
 
@@ -51,6 +51,16 @@ Instead of returning an `ActionMailer` object when you call `MyMailer.my_mail` y
 MyMailer.
 	my_mail("Mal Curtis", "mal@mal.co.nz", "Hi there").
 	deliver!
+```
+
+### Instance variables
+Any instance variables you assign will be converted to their `JSON` representation via `#as_json`. This can end up adding extra information which you may not want to send, so it might be easier to create your own hash representations of information.
+
+```ruby
+def new_book book, email
+	@book = { title: book.title, author: book.author.name }
+	mail "new_book", email: email
+end
 ```
 
 ## Who
