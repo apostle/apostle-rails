@@ -53,10 +53,10 @@ module Apostle
           all_instance_vars - @_apostle_known_instance_vars
         ).
         each do |attr|
-          value = self.instance_variable_get(attr).to_json
+          value = self.instance_variable_get(attr).as_json
           attr = attr.to_s.gsub('@', '')
-          if m.respond_to?(attr)
-            m.send(attr, value)
+          if m.respond_to?("#{attr}=")
+            m.send("#{attr}=", value)
           else
             m.data[attr] = value
           end
