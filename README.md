@@ -1,6 +1,7 @@
-# apostle-rails
+# Apostle Rails
+[![Gem Version](https://badge.fury.io/rb/apostle-rails.png)](http://badge.fury.io/rb/apostle-rails)
 
-Rails Bindings for Apostle
+Rails Bindings for [Apostle.io](http://apostle.io)
 
 ## Installation
 
