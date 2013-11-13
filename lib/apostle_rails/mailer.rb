@@ -18,7 +18,7 @@ module Apostle
         self.send(method_name, *args)
       end
 
-      def mail(template, headers, &block)
+      def mail(template, variables = {}, &block)
         m = @_message
         m.template_id = template
 
@@ -29,22 +29,14 @@ module Apostle
         end
 
         # Handle defaults
-        headers = headers.reverse_merge(default_values)
+        variables = variables.reverse_merge(default_values)
 
         # Set configure delivery behavior
         # TODO Enable config options such as perform_deliveries and raise_delivery_errors
         # wrap_delivery_behavior!(headers.delete(:delivery_method),headers.delete(:delivery_method_options))
 
-        # List of assignable attributes
-        directly_assignable = [:to, :from, :email, :name, :layout_id, :template, :reply_to]
-
-        # Anything that's not an assignable attribute is a header
-        assignable_headers = headers.except(*directly_assignable)
-        assignable_headers.each { |k, v| m.header(k, v) }
-
-        # Assign the assignable attributes
-        assignable_attributes = headers.slice(*directly_assignable)
-        assignable_attributes.each { |k, v| m.send("#{k}=", v) }
+        # Assign all attributes
+        variables.each { |k, v| m.send("#{k}=", v) }
 
         # Assign all new instance vars as attributes
         all_instance_vars = self.instance_variables.dup
