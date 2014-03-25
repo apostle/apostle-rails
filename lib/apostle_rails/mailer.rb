@@ -16,9 +16,11 @@ module Apostle
 
       def process(method_name, *args)
         self.send(method_name, *args)
+        @_message = ActionMailer::Base::NullMail.new unless @_mail_was_called
       end
 
       def mail(template, variables = {}, &block)
+        @_mail_was_called = true
         m = @_message
         m.template_id = template
 
