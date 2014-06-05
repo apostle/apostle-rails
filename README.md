@@ -46,7 +46,7 @@ end
 
 The first param passed to `mail` is the template slug, and instead of `to`, use `email`. `Apostle::Mailer` automatically adds any instance variables you set to the `Apostle::Mail` instance.
 
-Instead of returning an `ActionMailer` object when you call `MyMailer.my_mail` you get an instance of `Apostle::Mail`, which  you can then call `deliver` on.
+Instead of returning an `Mail::Message` object when you call `MyMailer.my_mail` you get an instance of `Apostle::Mail`, which  you can then call `deliver` on.
 
 ```ruby
 MyMailer.
