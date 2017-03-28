@@ -16,7 +16,19 @@ And then execute:
 Or install it yourself as:
 
     $ gem install apostle-rails
-
+## setup
+First, generate the gem's initializer:
+```
+ rails generate apostle:install
+```
+This will create the following initializer:
+ ```
+  config/initializers/apostle.rb
+  
+  Apostle.configure do |config|
+  	config.domain_key = 'APOSTLE_DOMAIN_KEY'
+  end
+  ```
 ## Usage
 
 `apostle-rails` is designed to feel like the `ActionMailer` API as much as possible.

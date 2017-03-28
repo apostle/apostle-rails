@@ -1,6 +1,5 @@
 module Apostle
   module Mailer
-
     extend ActiveSupport::Concern
 
     included do
@@ -10,23 +9,23 @@ module Apostle
       def initialize(method_name = nil, *args)
         super()
         @_message = Apostle::Mail.new nil
-        @_apostle_known_instance_vars = (self.instance_variables.dup || [])
+        @_apostle_known_instance_vars = (instance_variables.dup || [])
         process(method_name, *args) if method_name
       end
 
       def process(method_name, *args)
-        self.send(method_name, *args)
+        send(method_name, *args)
         @_message = ActionMailer::Base::NullMail.new unless @_mail_was_called
       end
 
-      def mail(template, variables = {}, &block)
+      def mail(template, variables = {}, &_block)
         @_mail_was_called = true
         m = @_message
         m.template_id = template
 
         # Call all the procs (if any)
         class_default = self.class.default
-        default_values = class_default.merge(class_default) do |k,v|
+        default_values = class_default.merge(class_default) do |_k, v|
           v.respond_to?(:to_proc) ? instance_eval(&v) : v
         end
 
@@ -41,14 +40,14 @@ module Apostle
         variables.each { |k, v| m.send("#{k}=", v) }
 
         # Assign all new instance vars as attributes
-        all_instance_vars = self.instance_variables.dup
+        all_instance_vars = instance_variables.dup
         @_apostle_known_instance_vars.push(:@_apostle_known_instance_vars)
         (
           all_instance_vars - @_apostle_known_instance_vars
-        ).
-        each do |attr|
-          value = self.instance_variable_get(attr).as_json
-          attr = attr.to_s.gsub('@', '')
+        )
+          .each do |attr|
+          value = instance_variable_get(attr).as_json
+          attr = attr.to_s.delete('@')
           if m.respond_to?("#{attr}=")
             m.send("#{attr}=", value)
           else
