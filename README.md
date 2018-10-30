@@ -17,16 +17,19 @@ Or install it yourself as:
 
     $ gem install apostle-rails
 ## setup
+
 First, generate the gem's initializer:
-```
+
+```bash
  rails generate apostle:install
 ```
 This will create the following initializer:
- ```
+
+ ```ruby
   config/initializers/apostle.rb
   
   Apostle.configure do |config|
-  	config.domain_key = 'APOSTLE_DOMAIN_KEY'
+    config.domain_key = 'APOSTLE_DOMAIN_KEY'
   end
   ```
 ## Usage
@@ -46,14 +49,13 @@ end
 becomes
 ```ruby
 class MyMailer < ActionMailer::Base
-
-	include Apostle::Mailer
-
-	def my_mail name, email, message
-		@message, @name = message, name
-		mail "my_mail", email: email
-	end
-end
+  include Apostle::Mailer
+   
+   def my_mail name, email, message
+     @message, @name = message, name
+	mail "my_mail", email: email
+   end
+ end
 ```
 
 The first param passed to `mail` is the template slug, and instead of `to`, use `email`. `Apostle::Mailer` automatically adds any instance variables you set to the `Apostle::Mail` instance.
@@ -61,9 +63,7 @@ The first param passed to `mail` is the template slug, and instead of `to`, use 
 Instead of returning a `Mail::Message` object when you call `MyMailer.my_mail` you get an instance of `Apostle::Mail`, which  you can then call `deliver` on.
 
 ```ruby
-MyMailer.
-	my_mail("Mal Curtis", "mal@mal.co.nz", "Hi there").
-	deliver!
+  MyMailer.my_mail("Mal Curtis", "mal@mal.co.nz", "Hi there").deliver!
 ```
 
 ### Instance variables
@@ -71,8 +71,8 @@ Any instance variables you assign will be converted to their `JSON` representati
 
 ```ruby
 def new_book book, email
-	@book = { title: book.title, author: book.author.name }
-	mail "new_book", email: email
+  @book = { title: book.title, author: book.author.name }
+  mail "new_book", email: email
 end
 ```
 
